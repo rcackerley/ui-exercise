@@ -11,7 +11,8 @@ type Props = {|
   classes: { [string]: string },
   customStyles: string,
   children: Node,
-  centered: boolean
+  centered: boolean,
+  onClick: ?() => void
 |}
 
 const styles = {
@@ -23,8 +24,9 @@ const styles = {
   }
 }
 
-const Row = ({ classes, children, customStyles, centered }: Props) => (
+const Row = ({ classes, children, customStyles, centered, onClick }: Props) => (
   <div
+    onClick={onClick}
     className={classNames(
       classes.row,
       customStyles,
