@@ -1,8 +1,15 @@
-import React, { Component } from "react"
+// @flow strict @format
 
-class App extends Component {
+import React from "react"
+
+import Inbox from "./views/Inbox"
+
+type Props = void
+type State = void
+
+class App extends React.Component<Props, State> {
   render() {
-    return <div />
+    return <Inbox />
   }
 }
 
