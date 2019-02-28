@@ -17,6 +17,9 @@ const styles = {
     "&:hover": {
       backgroundColor: theme.colors.background,
       borderRadius: "50%"
+    },
+    "&:focus": {
+      outline: "none"
     }
   }
 }
