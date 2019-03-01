@@ -29,8 +29,14 @@ class Inbox extends React.Component<Props, State> {
     filter: "inbox"
   }
   componentDidMount() {
+    let messages = emails.messages.map(message => ({
+      ...message,
+      checked: false,
+      important: false,
+      starred: false
+    }))
     this.setState({
-      emails: emails.messages,
+      emails: messages,
       user: {
         name: "Robby Ackerley",
         img: robby,
@@ -45,6 +51,18 @@ class Inbox extends React.Component<Props, State> {
     })
   }
 
+  toggleEmailTags = (emailId: string, type: string) => {
+    this.state.emails &&
+      this.setState({
+        emails: this.state.emails.map(email => {
+          if (email.id === emailId) {
+            email[type] = !email[type]
+          }
+          return email
+        })
+      })
+  }
+
   render() {
     const { user, emails, filter } = this.state
     return (
@@ -56,7 +74,10 @@ class Inbox extends React.Component<Props, State> {
             filter={filter}
             emails={emails}
           />
-          <EmailsContainer />
+          <EmailsContainer
+            toggleEmailTags={this.toggleEmailTags}
+            emails={emails}
+          />
         </Row>
       </Column>
     )

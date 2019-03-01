@@ -6,5 +6,8 @@ export type Email = {
   sender: string,
   body: string,
   tags: string[],
-  date: string
+  date: string,
+  starred: boolean,
+  checked: boolean,
+  important: boolean
 }
