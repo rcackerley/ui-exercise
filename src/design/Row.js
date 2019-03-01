@@ -12,7 +12,10 @@ type Props = {|
   customStyles: string,
   children: Node,
   centered: boolean,
-  onClick: ?() => void
+  onClick: ?() => void,
+  onMouseEnter: ?() => void,
+  onMouseLeave: ?() => void,
+  inTable: ?boolean
 |}
 
 const styles = {
@@ -24,17 +27,42 @@ const styles = {
   }
 }
 
-const Row = ({ classes, children, customStyles, centered, onClick }: Props) => (
-  <div
-    onClick={onClick}
-    className={classNames(
-      classes.row,
-      customStyles,
-      centered && classes.center
-    )}
-  >
-    {children}
-  </div>
-)
+const Row = ({
+  classes,
+  children,
+  customStyles,
+  centered,
+  onClick,
+  onMouseEnter,
+  onMouseLeave,
+  inTable
+}: Props) =>
+  inTable ? (
+    <tr
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      onClick={onClick}
+      className={classNames(
+        classes.row,
+        customStyles,
+        centered && classes.center
+      )}
+    >
+      {children}
+    </tr>
+  ) : (
+    <div
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      onClick={onClick}
+      className={classNames(
+        classes.row,
+        customStyles,
+        centered && classes.center
+      )}
+    >
+      {children}
+    </div>
+  )
 
 export default injectSheet(styles)(Row)
