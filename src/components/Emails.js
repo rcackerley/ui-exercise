@@ -44,6 +44,9 @@ const styles = {
   sender: {
     marginRight: "20px"
   },
+  body: {
+    flex: "1 1 auto"
+  },
   dateSection: {
     justifyContent: "flex-end",
     flex: 1,
@@ -54,13 +57,17 @@ const styles = {
     height: "22px",
     width: "22px",
     fill: theme.colors.grey
+  },
+  nonShrinkCell: {
+    flex: "0 0 auto"
   }
 }
 
 type Props = {|
   classes: { [string]: string },
   emails: ?(Email[]),
-  toggleEmailTags: (string, string) => void
+  toggleEmailTags: (string, string) => void,
+  moveEmailToTrash: string => void
 |}
 
 type State = {|
@@ -96,7 +103,7 @@ class Emails extends React.Component<Props, State> {
   }
 
   render() {
-    const { classes, emails, toggleEmailTags } = this.props
+    const { classes, emails, toggleEmailTags, moveEmailToTrash } = this.props
     if (emails) {
       return (
         <table>
@@ -111,7 +118,7 @@ class Emails extends React.Component<Props, State> {
                 email.checked && classes.selectedRow
               )}
             >
-              <td>
+              <Row customStyles={classes.nonShrinkCell} inTableRow={true}>
                 <IconButton
                   onClick={() => toggleEmailTags(email.id, "checked")}
                 >
@@ -141,30 +148,52 @@ class Emails extends React.Component<Props, State> {
                     src={important}
                   />
                 </IconButton>
-              </td>
-              <td centered={true}>
+              </Row>
+              <Row
+                customStyles={classes.body}
+                inTableRow={true}
+                centered={true}
+              >
                 <Text customStyles={classes.sender} variant="p">
                   {email.sender}
                 </Text>
+
                 <Text variant="p">{email.subject}</Text>
+
                 <Text variant="secondary">{` - ${email.body.substring(0, 47) +
                   "..."}`}</Text>
-              </td>
+              </Row>
               {this.state.hover === email.id ? (
-                <td customStyles={classes.dateSection}>
-                  <IconButton variant="small">
+                <Row
+                  inTableRow={true}
+                  customStyles={classNames(
+                    classes.dateSection,
+                    classes.nonShrinkCell
+                  )}
+                >
+                  <IconButton
+                    onClick={() => moveEmailToTrash(email.id)}
+                    variant="small"
+                  >
                     <ReactSVG svgClassName={classes.actions} src={trash} />
                   </IconButton>
                   <IconButton variant="small">
                     <ReactSVG svgClassName={classes.actions} src={snooze} />
                   </IconButton>
-                </td>
+                </Row>
               ) : (
-                <td customStyles={classes.dateSection} centered={true}>
+                <Row
+                  inTableRow={true}
+                  customStyles={classNames(
+                    classes.dateSection,
+                    classes.nonShrinkCell
+                  )}
+                  centered={true}
+                >
                   <Text variant="small">
                     {formatDate(new Date(email.date))}
                   </Text>
-                </td>
+                </Row>
               )}
             </Row>
           ))}

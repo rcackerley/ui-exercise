@@ -19,14 +19,16 @@ type Props = void
 type State = {|
   emails: ?(Email[]),
   user: ?User,
-  filter: string
+  filter: string,
+  trash: Email[]
 |}
 
 class Inbox extends React.Component<Props, State> {
   state = {
     emails: null,
     user: null,
-    filter: "inbox"
+    filter: "inbox",
+    trash: []
   }
   componentDidMount() {
     let messages = emails.messages.map(message => ({
@@ -63,6 +65,20 @@ class Inbox extends React.Component<Props, State> {
       })
   }
 
+  moveEmailToTrash = (emailId: string) => {
+    // verbosity on null checks needed to satisfy flow
+    if (this.state.emails != null) {
+      let deletedEmail = this.state.emails.find(email => emailId === emailId)
+      deletedEmail &&
+        this.setState({
+          trash: this.state.trash.concat([deletedEmail]),
+          emails:
+            this.state.emails &&
+            this.state.emails.filter(email => email.id !== emailId)
+        })
+    }
+  }
+
   render() {
     const { user, emails, filter } = this.state
     return (
@@ -76,6 +92,7 @@ class Inbox extends React.Component<Props, State> {
           />
           <EmailsContainer
             toggleEmailTags={this.toggleEmailTags}
+            moveEmailToTrash={this.moveEmailToTrash}
             emails={emails}
           />
         </Row>

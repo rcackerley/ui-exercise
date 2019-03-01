@@ -12,14 +12,23 @@ import type { Email } from "../data/email"
 
 type Props = {|
   emails: ?(Email[]),
-  toggleEmailTags: (string, string) => void
+  toggleEmailTags: (string, string) => void,
+  moveEmailToTrash: string => void
 |}
 
-const EmailsContainer = ({ emails, toggleEmailTags }: Props) => (
+const EmailsContainer = ({
+  emails,
+  toggleEmailTags,
+  moveEmailToTrash
+}: Props) => (
   <Column>
     <Actions />
     <Tabs />
-    <Emails toggleEmailTags={toggleEmailTags} emails={emails} />
+    <Emails
+      moveEmailToTrash={moveEmailToTrash}
+      toggleEmailTags={toggleEmailTags}
+      emails={emails}
+    />
   </Column>
 )
 

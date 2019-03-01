@@ -15,7 +15,8 @@ type Props = {|
   onClick: ?() => void,
   onMouseEnter: ?() => void,
   onMouseLeave: ?() => void,
-  inTable: ?boolean
+  inTable: ?boolean,
+  inTableRow: ?boolean
 |}
 
 const styles = {
@@ -35,7 +36,8 @@ const Row = ({
   onClick,
   onMouseEnter,
   onMouseLeave,
-  inTable
+  inTable,
+  inTableRow
 }: Props) =>
   inTable ? (
     <tr
@@ -50,6 +52,19 @@ const Row = ({
     >
       {children}
     </tr>
+  ) : inTableRow ? (
+    <td
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      onClick={onClick}
+      className={classNames(
+        classes.row,
+        customStyles,
+        centered && classes.center
+      )}
+    >
+      {children}
+    </td>
   ) : (
     <div
       onMouseEnter={onMouseEnter}
