@@ -83,6 +83,12 @@ const styles = {
   },
   nonShrinkCell: {
     flex: "0 0 auto"
+  },
+  tag: {
+    backgroundColor: theme.colors.muted,
+    padding: "6px",
+    borderRadius: "10px",
+    margin: "0 10px 0 0"
   }
 }
 
@@ -219,6 +225,11 @@ class Emails extends React.Component<Props, State> {
                   )}
                   centered={true}
                 >
+                  {email.tags.map(tag => (
+                    <Text customStyles={classes.tag} variant="small" key={tag}>
+                      {tag}
+                    </Text>
+                  ))}
                   <Text variant="small">
                     {formatDate(new Date(email.date))}
                   </Text>
