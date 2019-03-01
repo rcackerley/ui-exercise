@@ -13,13 +13,19 @@ import type { Email } from "../data/email"
 type Props = {|
   emails: ?(Email[]),
   toggleEmailTags: (string, string) => void,
-  moveEmailToTrash: string => void
+  moveEmailToTrash: string => void,
+  snoozeEmail: string => void,
+  filter: string,
+  trash: Email[]
 |}
 
 const EmailsContainer = ({
   emails,
   toggleEmailTags,
-  moveEmailToTrash
+  moveEmailToTrash,
+  snoozeEmail,
+  filter,
+  trash
 }: Props) => (
   <Column>
     <Actions />
@@ -27,7 +33,10 @@ const EmailsContainer = ({
     <Emails
       moveEmailToTrash={moveEmailToTrash}
       toggleEmailTags={toggleEmailTags}
+      snoozeEmail={snoozeEmail}
       emails={emails}
+      filter={filter}
+      trash={trash}
     />
   </Column>
 )

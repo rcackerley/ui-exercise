@@ -20,7 +20,8 @@ type State = {|
   emails: ?(Email[]),
   user: ?User,
   filter: string,
-  trash: Email[]
+  trash: Email[],
+  snoozedEmails: string[]
 |}
 
 class Inbox extends React.Component<Props, State> {
@@ -28,7 +29,8 @@ class Inbox extends React.Component<Props, State> {
     emails: null,
     user: null,
     filter: "inbox",
-    trash: []
+    trash: [],
+    snoozedEmails: []
   }
   componentDidMount() {
     let messages = emails.messages.map(message => ({
@@ -79,8 +81,14 @@ class Inbox extends React.Component<Props, State> {
     }
   }
 
+  snoozeEmail = (emailId: string) => {
+    this.setState({
+      snoozedEmails: this.state.snoozedEmails.concat(emailId)
+    })
+  }
+
   render() {
-    const { user, emails, filter } = this.state
+    const { user, emails, filter, trash } = this.state
     return (
       <Column>
         <Menu user={user} />
@@ -93,7 +101,10 @@ class Inbox extends React.Component<Props, State> {
           <EmailsContainer
             toggleEmailTags={this.toggleEmailTags}
             moveEmailToTrash={this.moveEmailToTrash}
+            snoozeEmail={this.snoozeEmail}
             emails={emails}
+            filter={filter}
+            trash={trash}
           />
         </Row>
       </Column>

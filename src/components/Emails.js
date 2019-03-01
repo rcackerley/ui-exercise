@@ -21,6 +21,29 @@ import ReactSVG from "react-svg"
 
 import type { Email } from "../data/email"
 
+const formatDate = date => {
+  var monthAbbrs = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "June",
+    "July",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec"
+  ]
+
+  var day = date.getDate()
+  var monthIndex = date.getMonth()
+  var year = date.getFullYear()
+
+  return monthAbbrs[monthIndex] + " " + day
+}
+
 const styles = {
   row: {
     borderBottom: `1px solid ${theme.colors.background}`,
@@ -67,47 +90,50 @@ type Props = {|
   classes: { [string]: string },
   emails: ?(Email[]),
   toggleEmailTags: (string, string) => void,
-  moveEmailToTrash: string => void
+  moveEmailToTrash: string => void,
+  snoozeEmail: string => void,
+  filter: string,
+  trash: Email[]
 |}
 
 type State = {|
   hover: ?string
 |}
 
-const formatDate = date => {
-  var monthAbbrs = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "June",
-    "July",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec"
-  ]
-
-  var day = date.getDate()
-  var monthIndex = date.getMonth()
-  var year = date.getFullYear()
-
-  return monthAbbrs[monthIndex] + " " + day
-}
-
 class Emails extends React.Component<Props, State> {
   state = {
     hover: null
   }
 
+  filterEmails = (type: string) => {
+    const { trash, emails } = this.props
+    // Ternaries are included to satisfy flow
+    if (type === "trash") {
+      return trash
+    } else if (type === "starred" || type === "important") {
+      return emails ? emails.filter(email => email[type]) : []
+    } else if (type === "inbox") {
+      return emails ? emails : []
+    } else if (type === "sent" || type === "drafts") {
+      return []
+    } else {
+      return emails ? emails.filter(email => email.tags.includes(type)) : []
+    }
+  }
+
   render() {
-    const { classes, emails, toggleEmailTags, moveEmailToTrash } = this.props
+    const {
+      classes,
+      emails,
+      toggleEmailTags,
+      moveEmailToTrash,
+      snoozeEmail,
+      filter
+    } = this.props
     if (emails) {
       return (
         <table>
-          {emails.map(email => (
+          {this.filterEmails(filter).map(email => (
             <Row
               inTable={true}
               onMouseEnter={() => this.setState({ hover: email.id })}
@@ -177,7 +203,10 @@ class Emails extends React.Component<Props, State> {
                   >
                     <ReactSVG svgClassName={classes.actions} src={trash} />
                   </IconButton>
-                  <IconButton variant="small">
+                  <IconButton
+                    onClick={() => snoozeEmail(email.id)}
+                    variant="small"
+                  >
                     <ReactSVG svgClassName={classes.actions} src={snooze} />
                   </IconButton>
                 </Row>
