@@ -39,7 +39,6 @@ const formatDate = date => {
 
   var day = date.getDate()
   var monthIndex = date.getMonth()
-  var year = date.getFullYear()
 
   return monthAbbrs[monthIndex] + " " + day
 }
@@ -73,8 +72,11 @@ const styles = {
   },
   dateSection: {
     justifyContent: "flex-end",
-    margin: "0 20px 0 20px",
-    minWidth: "50px"
+    margin: "0 20px 0 40px",
+    minWidth: "50px",
+    "@media (max-width:425px)": {
+      display: "none"
+    }
   },
   actions: {
     height: "22px",
@@ -88,7 +90,10 @@ const styles = {
     backgroundColor: theme.colors.muted,
     padding: "6px",
     borderRadius: "10px",
-    margin: "0 10px 0 0"
+    margin: "0 10px 0 0",
+    "@media (max-width: 600px)": {
+      display: "none"
+    }
   },
   text: {
     whiteSpace: "nowrap",
@@ -189,16 +194,10 @@ class Emails extends React.Component<Props, State> {
                 <Text customStyles={classes.sender} variant="p">
                   {email.sender}
                 </Text>
-
-                <Text customStyles={classes.nonShrinkCell} variant="p">
-                  {email.subject}
+                <Text inTable customStyles={classes.text} variant="secondary">
+                  <Text variant="p">{email.subject}</Text>
+                  {` - ${email.body}`}
                 </Text>
-
-                <Text
-                  inTable
-                  customStyles={classes.text}
-                  variant="secondary"
-                >{` - ${email.body}`}</Text>
               </Row>
               {this.state.hover === email.id ? (
                 <Row

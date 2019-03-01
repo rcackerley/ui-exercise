@@ -44,7 +44,10 @@ const styles = {
   },
   row: {
     flex: 1,
-    marginLeft: "10px"
+    marginLeft: "10px",
+    "@media (max-width: 600px)": {
+      display: "none"
+    }
   }
 }
 

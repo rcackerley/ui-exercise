@@ -46,14 +46,22 @@ type Props = {|
   children: string,
   disabled: boolean,
   onClick: () => void,
-  icon: ?string
+  icon: ?string,
+  customStyles: string
 |}
 
-const Button = ({ classes, children, disabled, onClick, icon }: Props) => (
+const Button = ({
+  classes,
+  children,
+  disabled,
+  onClick,
+  icon,
+  customStyles
+}: Props) => (
   <button
     onClick={onClick}
     disabled={disabled}
-    className={classNames(classes.button, classes.primary)}
+    className={classNames(classes.button, classes.primary, customStyles)}
   >
     {icon && <Image customStyles={classes.icon} src={icon} />}
     {children}

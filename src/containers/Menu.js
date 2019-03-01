@@ -25,7 +25,8 @@ import Search from "../components/Search"
 const styles = {
   container: {
     padding: "8px",
-    borderBottom: `1px solid ${theme.colors.background}`
+    borderBottom: `1px solid ${theme.colors.background}`,
+    justifyContent: "space-between"
   },
   icon: {
     fill: theme.colors.grey

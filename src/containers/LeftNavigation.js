@@ -30,7 +30,18 @@ let menuItems = [
   { title: "Trash", icon: label }
 ]
 
-const styles = {}
+const styles = {
+  column: {
+    "@media (max-width: 600px)": {
+      width: "50px"
+    }
+  },
+  button: {
+    "@media (max-width: 600px)": {
+      visibility: "hidden"
+    }
+  }
+}
 
 type Props = {|
   classes: { [string]: string },
@@ -56,7 +67,9 @@ const getTags = emails => {
 const LeftNavigation = ({ classes, emails, filter, setFilter }: Props) => {
   return (
     <Column customStyles={classes.column}>
-      <Button icon={create}>Compose</Button>
+      <Button customStyles={classes.button} icon={create}>
+        Compose
+      </Button>
       {menuItems.concat(getTags(emails)).map(item => (
         <MenuItem
           setFilter={setFilter}

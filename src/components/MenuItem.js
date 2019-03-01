@@ -28,6 +28,11 @@ const styles = {
   active: {
     backgroundColor: theme.colors.muted,
     borderRadius: "0 20px 20px 0"
+  },
+  text: {
+    "@media (max-width: 600px)": {
+      display: "none"
+    }
   }
 }
 
@@ -49,7 +54,9 @@ const MenuItem = ({ item, classes, filter, setFilter }: Props) => {
       )}
     >
       <ReactSVG svgClassName={classes.icon} src={item.icon} />
-      <Text variant="p">{item.title}</Text>
+      <Text customStyles={classes.text} variant="p">
+        {item.title}
+      </Text>
     </Row>
   )
 }
