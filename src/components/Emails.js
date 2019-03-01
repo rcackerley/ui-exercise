@@ -109,7 +109,8 @@ type Props = {|
   moveEmailToTrash: string => void,
   snoozeEmail: string => void,
   filter: string,
-  trash: Email[]
+  trash: Email[],
+  snoozedEmails: string[]
 |}
 
 type State = {|
@@ -130,6 +131,10 @@ class Emails extends React.Component<Props, State> {
       return emails ? emails.filter(email => email[type]) : []
     } else if (type === "inbox") {
       return emails ? emails : []
+    } else if (type === "snoozed") {
+      return emails
+        ? emails.filter(email => this.props.snoozedEmails.includes(email.id))
+        : []
     } else if (type === "sent" || type === "drafts") {
       return []
     } else {

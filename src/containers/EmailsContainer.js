@@ -27,7 +27,8 @@ type Props = {|
   snoozeEmail: string => void,
   filter: string,
   trash: Email[],
-  refreshEmail: () => void
+  refreshEmail: () => void,
+  snoozedEmails: string[]
 |}
 
 const EmailsContainer = (props: Props) => (

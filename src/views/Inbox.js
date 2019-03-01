@@ -70,7 +70,7 @@ class Inbox extends React.Component<Props, State> {
   moveEmailToTrash = (emailId: string) => {
     // verbosity on null checks needed to satisfy flow
     if (this.state.emails != null) {
-      let deletedEmail = this.state.emails.find(email => emailId === emailId)
+      let deletedEmail = this.state.emails.find(email => email.id === emailId)
       deletedEmail &&
         this.setState({
           trash: this.state.trash.concat([deletedEmail]),
@@ -130,7 +130,7 @@ class Inbox extends React.Component<Props, State> {
   }
 
   render() {
-    const { user, emails, filter, trash } = this.state
+    const { user, emails, filter, trash, snoozedEmails } = this.state
     return (
       <Column>
         <Menu user={user} />
@@ -145,6 +145,7 @@ class Inbox extends React.Component<Props, State> {
             toggleEmailTags={this.toggleEmailTags}
             moveEmailToTrash={this.moveEmailToTrash}
             snoozeEmail={this.snoozeEmail}
+            snoozedEmails={snoozedEmails}
             emails={emails}
             filter={filter}
             trash={trash}
