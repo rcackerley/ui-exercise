@@ -14,30 +14,20 @@ type Props = {|
   emails: ?(Email[]),
   toggleEmailTags: (string, string) => void,
   moveEmailToTrash: string => void,
+  moveMultipleEmailsToTrash: (string[]) => void,
   snoozeEmail: string => void,
   filter: string,
   trash: Email[]
 |}
 
-const EmailsContainer = ({
-  emails,
-  toggleEmailTags,
-  moveEmailToTrash,
-  snoozeEmail,
-  filter,
-  trash
-}: Props) => (
+const EmailsContainer = (props: Props) => (
   <Column>
-    <Actions />
-    <Tabs />
-    <Emails
-      moveEmailToTrash={moveEmailToTrash}
-      toggleEmailTags={toggleEmailTags}
-      snoozeEmail={snoozeEmail}
-      emails={emails}
-      filter={filter}
-      trash={trash}
+    <Actions
+      moveMultipleEmailsToTrash={props.moveMultipleEmailsToTrash}
+      emails={props.emails}
     />
+    <Tabs />
+    <Emails {...props} />
   </Column>
 )
 

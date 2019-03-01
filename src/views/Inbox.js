@@ -81,6 +81,27 @@ class Inbox extends React.Component<Props, State> {
     }
   }
 
+  moveMultipleEmailsToTrash = (emailIds: string[]) => {
+    if (emailIds.length === 0) {
+      return
+    }
+    if (this.state.emails != null) {
+      let emails = []
+      this.setState({
+        emails: this.state.emails.filter(email => {
+          if (emailIds.includes(email.id)) {
+            email.checked = false
+            emails.push(email)
+            return false
+          } else {
+            return true
+          }
+        }),
+        trash: this.state.trash.concat(emails)
+      })
+    }
+  }
+
   snoozeEmail = (emailId: string) => {
     this.setState({
       snoozedEmails: this.state.snoozedEmails.concat(emailId)
@@ -105,6 +126,7 @@ class Inbox extends React.Component<Props, State> {
             emails={emails}
             filter={filter}
             trash={trash}
+            moveMultipleEmailsToTrash={this.moveMultipleEmailsToTrash}
           />
         </Row>
       </Column>
