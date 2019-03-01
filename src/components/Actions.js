@@ -12,6 +12,7 @@ import injectSheet from "react-jss"
 import type { Email } from "../data/email"
 
 import trash from "../assets/icons/baseline-delete.svg"
+import refresh from "../assets/icons/refresh.svg"
 
 const styles = {
   row: {
@@ -20,17 +21,29 @@ const styles = {
   },
   icon: {
     fill: theme.colors.grey
+  },
+  button: {
+    marginRight: "10px"
   }
 }
 
 type Props = {|
   classes: { [string]: string },
   emails: ?(Email[]),
-  moveMultipleEmailsToTrash: (string[]) => void
+  moveMultipleEmailsToTrash: (string[]) => void,
+  refreshEmail: () => void
 |}
 
-const Actions = ({ classes, emails, moveMultipleEmailsToTrash }: Props) => (
+const Actions = ({
+  classes,
+  emails,
+  moveMultipleEmailsToTrash,
+  refreshEmail
+}: Props) => (
   <Row customStyles={classes.row}>
+    <IconButton onClick={() => refreshEmail()} customStyles={classes.button}>
+      <ReactSVG svgClassName={classes.icon} src={refresh} />
+    </IconButton>
     {emails && emails.find(email => email.checked) && (
       <IconButton
         onClick={() => {

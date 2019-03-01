@@ -17,12 +17,14 @@ type Props = {|
   moveMultipleEmailsToTrash: (string[]) => void,
   snoozeEmail: string => void,
   filter: string,
-  trash: Email[]
+  trash: Email[],
+  refreshEmail: () => void
 |}
 
 const EmailsContainer = (props: Props) => (
   <Column>
     <Actions
+      refreshEmail={props.refreshEmail}
       moveMultipleEmailsToTrash={props.moveMultipleEmailsToTrash}
       emails={props.emails}
     />

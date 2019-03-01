@@ -37,13 +37,20 @@ type Props = {|
   classes: { [string]: string },
   children: Node,
   onClick: () => void,
-  variant: string
+  variant: string,
+  customStyles: string
 |}
 
-const IconButton = ({ classes, children, onClick, variant }: Props) => (
+const IconButton = ({
+  classes,
+  children,
+  onClick,
+  variant,
+  customStyles
+}: Props) => (
   <button
     onClick={onClick}
-    className={classNames(classes.button, classes[variant])}
+    className={classNames(classes.button, classes[variant], customStyles)}
   >
     {children}
   </button>
