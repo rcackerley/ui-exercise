@@ -15,7 +15,7 @@ import type { User } from "../data/user"
 
 import robby from "../assets/robby.jpg"
 
-type Props = void
+type Props = {}
 type State = {|
   emails: ?(Email[]),
   user: ?User,

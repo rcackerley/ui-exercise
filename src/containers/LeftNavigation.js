@@ -54,7 +54,16 @@ const getTags = emails => {
   if (emails) {
     let allTags = []
     emails.map(email => allTags.push(email.tags))
-    let tags = [...new Set(allTags.flat())]
+
+    // Flatten An array - reduce instead of using .flat for flow
+    let tags = [
+      ...new Set(
+        allTags.reduce(
+          (acc, cur) => [...acc, ...(Array.isArray(cur) ? cur : [cur])],
+          []
+        )
+      )
+    ]
     return tags.map(tag => {
       let title = tag.charAt(0).toUpperCase() + tag.slice(1)
       return { title: title, icon: label }
