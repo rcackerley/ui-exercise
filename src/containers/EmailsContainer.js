@@ -2,6 +2,8 @@
 
 import React from "react"
 
+import injectSheet from "react-jss"
+
 import Column from "../design/Column"
 
 import Actions from "../components/Actions"
@@ -10,7 +12,14 @@ import Emails from "../components/Emails"
 
 import type { Email } from "../data/email"
 
+const styles = {
+  column: {
+    overflowX: "hidden"
+  }
+}
+
 type Props = {|
+  classes: { [string]: string },
   emails: ?(Email[]),
   toggleEmailTags: (string, string) => void,
   moveEmailToTrash: string => void,
@@ -22,7 +31,7 @@ type Props = {|
 |}
 
 const EmailsContainer = (props: Props) => (
-  <Column>
+  <Column customStyles={props.classes.column}>
     <Actions
       refreshEmail={props.refreshEmail}
       moveMultipleEmailsToTrash={props.moveMultipleEmailsToTrash}
@@ -33,4 +42,4 @@ const EmailsContainer = (props: Props) => (
   </Column>
 )
 
-export default EmailsContainer
+export default injectSheet(styles)(EmailsContainer)

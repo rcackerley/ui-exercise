@@ -22,6 +22,9 @@ const styles = {
   small: {
     fontSize: "12px",
     color: theme.colors.grey
+  },
+  h6: {
+    margin: 0
   }
 }
 
@@ -30,7 +33,8 @@ type Props = {|
   children: string,
   uppercase: ?boolean,
   variant: string,
-  customStyles: string
+  customStyles: string,
+  inTable: boolean
 |}
 
 const Text = ({
@@ -38,18 +42,32 @@ const Text = ({
   classes,
   children,
   uppercase,
-  customStyles
-}: Props) => (
-  <span
-    className={classNames(
-      classes.text,
-      classes[variant],
-      uppercase && classes.uppercase,
-      customStyles
-    )}
-  >
-    {children}
-  </span>
-)
+  customStyles,
+  inTable
+}: Props) =>
+  inTable ? (
+    <h6
+      className={classNames(
+        classes.text,
+        classes[variant],
+        classes.h6,
+        uppercase && classes.uppercase,
+        customStyles
+      )}
+    >
+      {children}
+    </h6>
+  ) : (
+    <span
+      className={classNames(
+        classes.text,
+        classes[variant],
+        uppercase && classes.uppercase,
+        customStyles
+      )}
+    >
+      {children}
+    </span>
+  )
 
 export default injectSheet(styles)(Text)

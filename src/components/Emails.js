@@ -47,7 +47,7 @@ const formatDate = date => {
 const styles = {
   row: {
     borderBottom: `1px solid ${theme.colors.background}`,
-    flex: 1,
+    // flex: 1,
     cursor: "pointer",
     "&:hover": {
       boxShadow: "0 0 20px rgba(0,0,0, .25)"
@@ -68,11 +68,11 @@ const styles = {
     marginRight: "20px"
   },
   body: {
-    flex: "1 1 auto"
+    flex: 1,
+    minWidth: 0
   },
   dateSection: {
     justifyContent: "flex-end",
-    flex: 1,
     margin: "0 20px 0 20px",
     minWidth: "50px"
   },
@@ -82,13 +82,18 @@ const styles = {
     fill: theme.colors.grey
   },
   nonShrinkCell: {
-    flex: "0 0 auto"
+    whiteSpace: "nowrap"
   },
   tag: {
     backgroundColor: theme.colors.muted,
     padding: "6px",
     borderRadius: "10px",
     margin: "0 10px 0 0"
+  },
+  text: {
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis"
   }
 }
 
@@ -138,10 +143,9 @@ class Emails extends React.Component<Props, State> {
     } = this.props
     if (emails) {
       return (
-        <table>
+        <>
           {this.filterEmails(filter).map(email => (
             <Row
-              inTable={true}
               onMouseEnter={() => this.setState({ hover: email.id })}
               onMouseLeave={() => this.setState({ hover: null })}
               key={email.id}
@@ -150,7 +154,7 @@ class Emails extends React.Component<Props, State> {
                 email.checked && classes.selectedRow
               )}
             >
-              <Row customStyles={classes.nonShrinkCell} inTableRow={true}>
+              <Row customStyles={classes.nonShrinkCell}>
                 <IconButton
                   onClick={() => toggleEmailTags(email.id, "checked")}
                 >
@@ -181,23 +185,23 @@ class Emails extends React.Component<Props, State> {
                   />
                 </IconButton>
               </Row>
-              <Row
-                customStyles={classes.body}
-                inTableRow={true}
-                centered={true}
-              >
+              <Row customStyles={classes.body} centered={true}>
                 <Text customStyles={classes.sender} variant="p">
                   {email.sender}
                 </Text>
 
-                <Text variant="p">{email.subject}</Text>
+                <Text customStyles={classes.nonShrinkCell} variant="p">
+                  {email.subject}
+                </Text>
 
-                <Text variant="secondary">{` - ${email.body.substring(0, 47) +
-                  "..."}`}</Text>
+                <Text
+                  inTable
+                  customStyles={classes.text}
+                  variant="secondary"
+                >{` - ${email.body}`}</Text>
               </Row>
               {this.state.hover === email.id ? (
                 <Row
-                  inTableRow={true}
                   customStyles={classNames(
                     classes.dateSection,
                     classes.nonShrinkCell
@@ -218,7 +222,6 @@ class Emails extends React.Component<Props, State> {
                 </Row>
               ) : (
                 <Row
-                  inTableRow={true}
                   customStyles={classNames(
                     classes.dateSection,
                     classes.nonShrinkCell
@@ -237,7 +240,7 @@ class Emails extends React.Component<Props, State> {
               )}
             </Row>
           ))}
-        </table>
+        </>
       )
     } else {
       return null
