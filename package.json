@@ -3,7 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "ajv": "^6.10.0",
     "classnames": "^2.2.6",
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.11.2",
+    "jest-enzyme": "^7.0.2",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
     "react-jss": "^8.6.1",
